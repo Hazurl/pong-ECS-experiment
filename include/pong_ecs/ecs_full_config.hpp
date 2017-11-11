@@ -7,11 +7,14 @@ namespace pong_ecs {
 
 // Systems List
 // Remember, they are updated in order
-using Systems = ecs::ctx::make_systems<Physics::config>;
+using Systems = ecs::ctx::make_systems<
+    systems::Physics::config,
+    systems::DebugPosition::config
+>;
 
 // Final ECS
 
-using ECS_controller = ecs::make_ecs<
+using ECS_controller = ecs::ctx::make_ecs<
     Entity,
     Components,
     Systems,

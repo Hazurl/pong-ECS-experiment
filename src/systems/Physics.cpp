@@ -7,7 +7,7 @@ Physics::Physics (float screen_width, float screen_height)
     : screen_width(screen_width), screen_height(screen_height) {}
 
 
-void Physics::update(float dt, Views<component::Position, component::Velocity, component::BoxCollider>& entities) {
+void Physics::update(float dt, Views<component::Position, component::Velocity, component::BoxCollider>& entities) const {
     for(auto& view : entities) {
         auto& position = view.get<component::Position>();
         auto& velocity = view.get<component::Velocity>();
@@ -46,15 +46,15 @@ void Physics::update_one(float dt,
         velocity.y *= -1;
         next_pos.y = velocity.y * remainder_time;
     }
-    else if ((next_pos.y + boxCollider.offset_y + boxCollider.heigth) > screen_heigth) {
+    else if ((next_pos.y + boxCollider.offset_y + boxCollider.height) > screen_height) {
         // bottom border
-        float impact_time = (screen_heigth - position.y + boxCollider.offset_y + boxCollider.heigth) / velocity.y;
+        float impact_time = (screen_height - position.y + boxCollider.offset_y + boxCollider.height) / velocity.y;
         float remainder_time = dt - impact_time;
         velocity.y *= -1;
-        next_pos.y = screen_heigth + velocity.y * remainder_time;
+        next_pos.y = screen_height + velocity.y * remainder_time;
     }
 
-    position = newt_pos;
+    position = next_pos;
 }
 
 }}

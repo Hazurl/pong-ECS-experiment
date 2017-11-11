@@ -7,19 +7,16 @@ namespace systems {
 
 class Physics {
 public:
+    Physics(float screen_width, float screen_height);
+
+    void update(float dt, Views<component::Position, component::Velocity, component::BoxCollider>& entities) const;
 
     using config = ecs::ctx::make_system<
         Physics,
-        ecs:::ctx::make_system_methods<
-            ECS_SYST_METHOD( Physics::update )
-            // or
-            //ecs::ctx::make_system_method< decltype(&Physics::update), Physics::update>
-        >
+        //ecs::ctx::make_method< decltype(&Physics::update), &Physics::update >
+        // or
+        ECS_MAKE_METHOD(&Physics::update)
     >;
-
-    Physics(float screen_width, float screen_height);
-
-    void update(float dt, Views<component::Position, component::Velocity, component::BoxColiider>& entities) const;
 
 private:
 
