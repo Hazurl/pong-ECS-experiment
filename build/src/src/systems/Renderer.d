@@ -1,5 +1,6 @@
-build/src/src/systems/Physics.o: src/systems/Physics.cpp \
- include/pong_ecs/systems/Physics.hpp include/pong_ecs/ecs_sub_config.hpp \
+build/src/src/systems/Renderer.o: src/systems/Renderer.cpp \
+ include/pong_ecs/systems/Renderer.hpp \
+ include/pong_ecs/ecs_sub_config.hpp \
  include/pong_ecs/components/Components.hpp \
  include/pong_ecs/components/Position.hpp \
  include/pong_ecs/components/Velocity.hpp \
@@ -48,7 +49,7 @@ build/src/src/systems/Physics.o: src/systems/Physics.cpp \
  lib/ECS/include/ecs/view/Views.hpp lib/ECS/include/ecs/view/View.hpp \
  lib/ECS/include/ecs/container/Tuple.hpp
 
-include/pong_ecs/systems/Physics.hpp:
+include/pong_ecs/systems/Renderer.hpp:
 
 include/pong_ecs/ecs_sub_config.hpp:
 

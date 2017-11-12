@@ -13,10 +13,11 @@ using Entity = ecs::ctx::default_entity;
 using Components = ecs::ctx::make_components<
     component::Position, 
     component::Velocity, 
-    component::BoxCollider>;
+    component::BoxCollider,
+    component::BallSprite>;
 
 // Limit size
-using Limit_size = ecs::ctx::make_limit_size<2048>;
+using Limit_size = ecs::ctx::make_limit_size<2048 * 8>;
 
 // Grow Policy
 using Grow_policy = ecs::ctx::make_grow_policy<ecs::instant_grow_policy>;

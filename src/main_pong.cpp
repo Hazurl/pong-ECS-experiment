@@ -2,6 +2,8 @@
 
 #include <pong_ecs/ecs_full_config.hpp>
 
+#include <SFML/Graphics.hpp>
+
 #include <ctime>
 #include <random>
 #include <cmath>
@@ -9,51 +11,53 @@
 
 int main (int, char**) {
 
-    float screen_width = 1000;
-    float screen_height = 1000;
+    float screen_width = 960;
+    float screen_height = 720;
 
     pong_ecs::ECS_controller controller(
-        ecs::SystemsConstructor<mtp::List<pong_ecs::systems::Physics>>(
+        ecs::SystemsConstructor<pong_ecs::systems::Physics>(
             [screen_width, screen_height] () { return pong_ecs::systems::Physics(screen_width, screen_height); }
         )
     );
 
     srand(time(nullptr));
 
-    const float radius_ball = 10;
+    const float radius_ball = 2;
+    const float speed_ball = 300;
+    const int count_ball = 2000;
 
-    //for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < count_ball; ++i) {
         // create an entity
         // (auto is pong_ecs::Entity)
-        auto ent = controller.controller.create();
-        controller.controller.add_component<pong_ecs::component::Position>(ent, screen_width / 2, screen_height / 2);
+        auto ent = controller.create();
+        controller.add_component<pong_ecs::component::Position>(ent, screen_width / 2, screen_height / 2);
         auto rad = (rand() % 360) * M_PI / 180.;
-        rad = 0;
-        controller.controller.add_component<pong_ecs::component::Velocity>(ent, std::cos(rad), std::sin(rad));
-        controller.controller.add_component<pong_ecs::component::BoxCollider>(ent, -radius_ball/2., -radius_ball/2, radius_ball, radius_ball);
-    //}
+        const float real_speed = speed_ball * ((rand() % 90) + 10) / 100.;
+        controller.add_component<pong_ecs::component::Velocity>(ent, std::cos(rad) * real_speed, std::sin(rad) * real_speed);
+        controller.add_component<pong_ecs::component::BoxCollider>(ent, 0, 0, radius_ball * 2, radius_ball * 2);
+        controller.add_component<pong_ecs::component::BallSprite>(ent, radius_ball, sf::Color(rand() % 256, rand() % 256, rand() % 256));
+    }
 
-    // while(true) {
+    sf::RenderWindow window(sf::VideoMode(screen_width, screen_height), "Balls");
+    sf::Clock clock;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
-        // finally update all systems, 
-        // be careful deltaTime is a float, so you HAVE to pass a float
-        controller.update(0.42f); 
-        controller.update(0.42f); 
-        controller.update(0.42f); 
-        controller.update(0.42f); 
-        controller.update(0.42f); 
-        // 0.42 is a double, so it would complain about it
+        window.clear();
+        
+        auto time = clock.restart().asMicroseconds() / 1000000.;
 
-        // I recommend making an alias for each type :
-        /*
-            using Time = float;
-            controller.update(Time{0.42});
+        controller.update(
+            static_cast<float>(time), // Time : float
+            static_cast<sf::RenderTarget*>(&window) // RenderTarget
+        );
+        window.display();
+    }
 
-            // System's signature
-            void update(Time dt);
-        */
-
-    //}
 
     return 0;
 }

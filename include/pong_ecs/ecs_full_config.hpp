@@ -9,7 +9,9 @@ namespace pong_ecs {
 // Remember, they are updated in order
 using Systems = ecs::ctx::make_systems<
     systems::Physics::config,
-    systems::DebugPosition::config
+    systems::Renderer::config,/*
+    systems::ColliderRenderer::config*/
+    systems::FPS::config
 >;
 
 // Final ECS

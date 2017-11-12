@@ -54,7 +54,7 @@ OPTIM := -O2
 # C++ flags
 FLAGS := -std=c++1z -g3 -Wall -Wextra -Wno-pmf-conversions -fno-strict-aliasing
 # C++ librairie
-LIBS := 
+LIBS := -lsfml-graphics -lsfml-window -lsfml-system
 # Header include folder
 INCLUDE := -I ./include -I ./lib/ECS/include -I ./lib/ECS/lib/meta-programming/include
 # Makefile flags
