@@ -4,3 +4,5 @@
 #include <pong_ecs/systems/Renderer.hpp>
 #include <pong_ecs/systems/ColliderRenderer.hpp>
 #include <pong_ecs/systems/FPS.hpp>
+#include <pong_ecs/systems/InputController.hpp>
+#include <pong_ecs/systems/AIController.hpp>

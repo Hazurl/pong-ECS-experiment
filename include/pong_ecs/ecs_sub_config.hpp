@@ -1,20 +1,21 @@
 #pragma once
 
 #include <pong_ecs/components/Components.hpp>
+#include <pong_ecs/ecs_entity_config.hpp>
 
 #include <ecs/ecs.hpp>
 
 namespace pong_ecs {
-
-// Entity use in our ecs
-using Entity = ecs::ctx::default_entity;
 
 // Components list
 using Components = ecs::ctx::make_components<
     component::Position, 
     component::Velocity, 
     component::BoxCollider,
-    component::BallSprite>;
+    component::BallSprite,
+    component::PadSprite,
+    component::Inputs,
+    component::AI>;
 
 // Limit size
 using Limit_size = ecs::ctx::make_limit_size<2048 * 8>;
