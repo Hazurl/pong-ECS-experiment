@@ -30,7 +30,7 @@ DEST := build/main_app
 ARGS := 
 MORE_ARGS :=
 # Build Directories
-BUILD_DIR := build build/main build/src $(addprefix build/src/,$(SRC_DIR)) $(addprefix build/deps/,$(SRC_DIR))
+BUILD_DIR := build build/main build/main/prof build/src $(addprefix build/src/,$(SRC_DIR)) $(addprefix build/deps/,$(SRC_DIR)) $(addprefix build/prof/,$(SRC_DIR))
 # .o files
 OBJ := $(patsubst %.cpp,build/src/%.o,$(SRC))
 # Include folders
@@ -46,6 +46,21 @@ DEPS_FOLDER := build/deps
 # Flags
 DEPS_FLAGS := -MMD -MP
 
+##############################################
+#                  PROFILER                  #
+##############################################
+# All .d files corresponding to each .cpp
+PROF_SRC := $(patsubst %.cpp,build/prof/%.o,$(SRC))
+# Deps folder
+PROF_FOLDER := build/prof
+# Flags
+PROF_FLAGS := -pg
+# Objects
+PROF_OBJ :=  $(patsubst %.cpp,build/prof/%.o,$(SRC))
+# Main Object
+PROF_MAIN_OBJ := $(patsubst %.cpp,build/main/prof/%.o,$(MAIN))
+# Destination
+PROF_DEST := build/main_app_profile
 ##############################################
 #                    FLAGS                   #
 ##############################################
@@ -128,5 +143,47 @@ valgrind: $(DEST)
 	@echo "      Stop      "
 	@echo "----------------"
 	@echo -n "\033[0m"
+
+# Profiler build task
+# Compile each file and link them
+$(PROF_DEST): $(BUILD_DIR) $(PROF_OBJ) $(PROF_MAIN_OBJ)
+	@echo "\033[32m\033[1m:: Linking of all objects\033[0m"
+	@g++ $(INCLUDE) $(FLAGS) $(PROF_FLAGS) $(PROF_OBJ) $(PROF_MAIN_OBJ) -o $(PROF_DEST) $(LIBS)
+	@echo -n "\033[34m"
+	@echo "---------------"
+	@echo "Build finished!"
+	@echo "---------------"
+	@echo -n "\033[0m"
+
+# Compile a file into a object
+build/prof/%.o: %.cpp
+	@echo "\033[1m:: Building" "$<" "\033[0m"
+	@g++ -c $(INCLUDE) $(FLAGS) $(PROF_FLAGS) -o "$@" "$<"
+
+# Compile a file into a object
+$(PROF_MAIN_OBJ): $(MAIN_PATH)
+	@echo "\033[1m:: Building Main" "\033[0m"
+	@g++ -c $(INCLUDE) $(PROF_FLAGS) $(FLAGS) -o "$@" "$<"
+
+run-profiler: $(PROF_DEST)
+	@echo -n "\033[34m"
+	@echo "----------------"
+	@echo "  Run Profile   "
+	@echo "----------------"
+	@echo -n "\033[0m"
+	@$(PROF_DEST) $(ARGS) $(MORE_ARGS)
+	@echo -n "\033[34m"
+	@echo "----------------"
+	@echo "  Stop Profile  "
+	@echo "----------------"
+	@echo -n "\033[0m"
+
+again-profiler:
+	@make clean
+	@make run-profiler
+
+log-profiler:
+	@gprof $(PROF_DEST) gmon.out > build/profiler-log
+	@echo -n "Log in 'build/profiler-log' "
 
 -include $(DEPS)
