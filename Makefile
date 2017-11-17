@@ -106,6 +106,7 @@ $(BUILD_DIR):
 clean:
 	@echo "Removing build folder..."
 	@rm -rf build
+	@rm -f gmon.out
 	@echo -n "\033[34m"
 	@echo "----------------"
 	@echo "Project  Cleaned"
