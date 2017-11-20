@@ -35,7 +35,7 @@ int main (int, char**) {
     float pad_width = 20;
     float pad_marge = 20;
     
-    float ai_speed = 250;
+    float ai_speed = 2500;
 
     auto e_ball = controller.create();
     controller.add_component<pong_ecs::component::Position>     (e_ball, screen_width / 2, screen_height / 2);
@@ -51,7 +51,7 @@ int main (int, char**) {
 
     auto const& ball_position = controller.get_component<pong_ecs::component::Position>(e_ball);
     auto e_enemy_pad = controller.create();
-    controller.add_component<pong_ecs::component::Position>     (e_enemy_pad, screen_width - pad_marge, screen_height / 2);
+    controller.add_component<pong_ecs::component::Position>     (e_enemy_pad, screen_width - pad_marge - pad_width, screen_height / 2);
     controller.add_component<pong_ecs::component::AI>           (e_enemy_pad, ball_position, ai_speed);
     controller.add_component<pong_ecs::component::BoxCollider>  (e_enemy_pad, 0, 0, pad_width, pad_height);
     controller.add_component<pong_ecs::component::PadSprite>    (e_enemy_pad, pad_width, pad_height, sf::Color::White);

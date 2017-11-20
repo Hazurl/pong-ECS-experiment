@@ -16,7 +16,7 @@ void AIController::process(float dt, Views<component::AI, component::Position, c
 
         float y_center = pos.y + box.offset_y + box.height / 2.;
 
-        float dist = (ball_pos.y - y_center) * dt;
+        float dist = (ball_pos.y + 12 - y_center);
         if (dist > max_dist)
             dist = max_dist;
         else if (dist < -max_dist)
@@ -24,7 +24,7 @@ void AIController::process(float dt, Views<component::AI, component::Position, c
 
         pos.y += dist;
         if (pos.y + box.offset_y < 0) {
-            pos.y = 0 - box.offset_y;
+            pos.y = -box.offset_y;
         } else if(pos.y + box.offset_y + box.height > screen_height) {
             pos.y = screen_height - (box.offset_y + box.height);
         }

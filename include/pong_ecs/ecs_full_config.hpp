@@ -11,8 +11,8 @@ using Systems = ecs::ctx::make_systems<
     systems::InputController::config,
     systems::AIController::config,
     systems::Physics::config,
-    systems::Renderer::config,/*
-    systems::ColliderRenderer::config*/
+    systems::Renderer::config,
+    systems::DebugRenderer::config,
     systems::FPS::config
 >;
 
