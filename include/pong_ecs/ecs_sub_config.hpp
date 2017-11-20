@@ -23,6 +23,19 @@ using Limit_size = ecs::ctx::make_limit_size<2048 * 8>;
 // Grow Policy
 using Grow_policy = ecs::ctx::make_grow_policy<ecs::instant_grow_policy>;
 
+namespace tags {
+    struct ball {};
+    struct pad {};
+    struct player {};
+    struct enemy {};
+
+    struct fancy {};
+}
+
+// Tags
+using Tags = ecs::ctx::make_tags<tags::ball, tags::pad, tags::player, tags::enemy, tags::fancy>;
+using TagController = ecs::ctx::make_tag_controller<Tags, Limit_size>;
+
 // Entities Controller, use in argument (in systems) to control creation/destruction of entities
 // + addition/deletion of components
 using EntitiesController = ecs::ctx::make_entity_controller<Entity, Components, Limit_size, Grow_policy>;

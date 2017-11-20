@@ -7,7 +7,7 @@ namespace systems {
 
 class Renderer {
 public:
-    void render_balls(Views<component::BallSprite, component::Position> const& entities, sf::RenderTarget* renderTarget) const;
+    void render_balls(TagController& tag_controller, Views<component::BallSprite, component::Position> const& entities, sf::RenderTarget* renderTarget) const;
     void render_pads(Views<component::PadSprite, component::Position> const& entities, sf::RenderTarget* renderTarget) const;
 
     using config = ecs::ctx::make_system<

@@ -42,12 +42,15 @@ int main (int, char**) {
     controller.add_component<pong_ecs::component::Velocity>     (e_ball, ball_horizontal, ball_vertical);
     controller.add_component<pong_ecs::component::BoxCollider>  (e_ball, 0, 0, radius_ball * 2, radius_ball * 2);
     controller.add_component<pong_ecs::component::BallSprite>    (e_ball, radius_ball, sf::Color::White);
+    controller.set_tag<pong_ecs::tags::ball>(e_ball);
 
     auto e_player_pad = controller.create();
     controller.add_component<pong_ecs::component::Position>     (e_player_pad, pad_marge, screen_height / 2);
     controller.add_component<pong_ecs::component::Inputs>       (e_player_pad);
     controller.add_component<pong_ecs::component::BoxCollider>  (e_player_pad, 0, 0, pad_width, pad_height);
     controller.add_component<pong_ecs::component::PadSprite>    (e_player_pad, pad_width, pad_height, sf::Color::White);
+    controller.set_tag<pong_ecs::tags::pad>(e_player_pad);
+    controller.set_tag<pong_ecs::tags::player>(e_player_pad);
 
     auto const& ball_position = controller.get_component<pong_ecs::component::Position>(e_ball);
     auto e_enemy_pad = controller.create();
@@ -55,6 +58,8 @@ int main (int, char**) {
     controller.add_component<pong_ecs::component::AI>           (e_enemy_pad, ball_position, ai_speed);
     controller.add_component<pong_ecs::component::BoxCollider>  (e_enemy_pad, 0, 0, pad_width, pad_height);
     controller.add_component<pong_ecs::component::PadSprite>    (e_enemy_pad, pad_width, pad_height, sf::Color::White);
+    controller.set_tag<pong_ecs::tags::pad>(e_enemy_pad);
+    controller.set_tag<pong_ecs::tags::player>(e_enemy_pad);
 
     sf::RenderWindow window(sf::VideoMode(screen_width, screen_height), "Balls");
     sf::Clock clock;

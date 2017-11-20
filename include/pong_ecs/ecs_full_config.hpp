@@ -22,6 +22,7 @@ using ECS_controller = ecs::ctx::make_ecs<
     Entity,
     Components,
     Systems,
+    Tags,
 
     Limit_size,
     Grow_policy
