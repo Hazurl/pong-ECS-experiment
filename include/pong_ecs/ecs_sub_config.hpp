@@ -18,7 +18,7 @@ using Components = ecs::ctx::make_components<
     component::AI>;
 
 // Limit size
-using Limit_size = ecs::ctx::make_limit_size<2048 * 8>;
+using Limit_size = ecs::ctx::make_limit_size<16384>;
 
 // Grow Policy
 using Grow_policy = ecs::ctx::make_grow_policy<ecs::instant_grow_policy>;
